@@ -1,0 +1,5 @@
+#Directories
+.vscode/
+.xmake/
+bin/
+bin-int/
