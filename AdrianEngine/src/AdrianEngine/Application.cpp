@@ -1,18 +1,17 @@
 #include "Application.h"
 
-namespace AdrianEngine
+namespace AdrianEngine {
+Application::Application(/* args */)
 {
-    Application::Application(/* args */)
-    {
-    }
+}
 
-    Application::~Application()
-    {
-    }
+Application::~Application()
+{
+}
 
-    void Application::run()
-    {
-        while (true)
-            ;
-    }
+void Application::run()
+{
+    while (true)
+        ;
+}
 }

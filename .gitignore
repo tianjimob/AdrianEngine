@@ -3,3 +3,4 @@
 .xmake/
 bin/
 bin-int/
+build/
