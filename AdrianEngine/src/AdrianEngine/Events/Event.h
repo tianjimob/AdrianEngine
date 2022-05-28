@@ -14,83 +14,76 @@ namespace AdrianEngine {
  */
 
 enum class EventType {
-    None = 0,
+  None = 0,
 
-    WindowClose,
-    WindowResize,
-    WindowFocus,
-    WindowMoved,
+  WindowClose,
+  WindowResize,
+  WindowFocus,
+  WindowMoved,
 
-    AppTick,
-    AppUpdate,
-    AppRender,
+  AppTick,
+  AppUpdate,
+  AppRender,
 
-    KeyPressed,
-    KeyReleased,
+  KeyPressed,
+  KeyReleased,
 
-    MouseButtonPressed,
-    MouseButtonReleased,
-    MouseMoved,
-    MouseScrolled
+  MouseButtonPressed,
+  MouseButtonReleased,
+  MouseMoved,
+  MouseScrolled
 };
 
 enum EventCategory {
-    None = 0,
-    EventCategoryApplication = bitLShift(0),
-    EventCategoryInput = bitLShift(1),
-    EventCategoryKeyboard = bitLShift(2),
-    EventCategoryMouse = bitLShift(3),
-    EventCategoryMouseButton = bitLShift(4)
+  None = 0,
+  EventCategoryApplication = bitLShift(0),
+  EventCategoryInput = bitLShift(1),
+  EventCategoryKeyboard = bitLShift(2),
+  EventCategoryMouse = bitLShift(3),
+  EventCategoryMouseButton = bitLShift(4)
 };
 
-#define EVENT_CLASS_TYPE(type)                                                  \
-    static EventType getStaticType() { return (type); }                         \
-    virtual EventType getEventType() const override { return getStaticType(); } \
-    virtual std::string_view getName() const override { return #type; }
+#define EVENT_CLASS_TYPE(type)                                                 \
+  static EventType getStaticType() { return (type); }                          \
+  virtual EventType getEventType() const override { return getStaticType(); }  \
+  virtual std::string_view getName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) \
-    virtual int getCategoryFlags() const override { return category; }
+#define EVENT_CLASS_CATEGORY(category)                                         \
+  virtual int getCategoryFlags() const override { return category; }
 
 class AE_API Event {
-    friend class EventDispatcher;
+  friend class EventDispatcher;
 
 public:
-    virtual ~Event() = default;
-    virtual EventType getEventType() const = 0;
-    virtual std::string_view getName() const = 0;
-    virtual int getCategoryFlags() const = 0;
-    virtual std::string toString() const { return std::string { getName() }; };
+  virtual ~Event() = default;
+  virtual EventType getEventType() const = 0;
+  virtual std::string_view getName() const = 0;
+  virtual int getCategoryFlags() const = 0;
+  virtual std::string toString() const { return std::string{getName()}; };
 
-    inline bool isCategory(EventCategory category) const
-    {
-        return getCategoryFlags() & category;
-    }
+  inline bool isCategory(EventCategory category) const {
+    return getCategoryFlags() & category;
+  }
 
 private:
-    bool m_handled { false };
+  bool m_handled{false};
 };
 
 class EventDispatcher {
-    template <typename T>
-    using EventCallback = std::function<bool(T&)>;
+  template <typename T> using EventCallback = std::function<bool(T &)>;
 
 public:
-    explicit EventDispatcher(Event& event)
-        : m_event(event)
-    {
-    }
+  explicit EventDispatcher(Event &event) : m_event(event) {}
 
-    template <typename T>
-    bool dispatch(EventCallback<T> callback)
-    {
-        if (m_event.getEventType() == T::GetStaticType()) {
-            m_event.m_handled = callback(m_event);
-            return true;
-        }
-        return false;
+  template <typename T> bool dispatch(EventCallback<T> callback) {
+    if (m_event.getEventType() == T::getStaticType()) {
+      m_event.m_handled = callback(*reinterpret_cast<T *>(&m_event));
+      return true;
     }
+    return false;
+  }
 
 private:
-    Event& m_event;
+  Event &m_event;
 };
 } // namespace AdrianEngine

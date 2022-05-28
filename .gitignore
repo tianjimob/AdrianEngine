@@ -8,3 +8,4 @@ build/
 
 #Files
 compile_commands.json
+updateintellisense.bat
