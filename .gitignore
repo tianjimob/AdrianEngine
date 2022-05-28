@@ -1,6 +1,10 @@
 #Directories
+.cache
 .vscode/
 .xmake/
 bin/
 bin-int/
 build/
+
+#Files
+compile_commands.json

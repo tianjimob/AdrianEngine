@@ -1,6 +1,6 @@
 #pragma once
 #include "Core.h"
-#include <memory>
+#include "aepch.h"
 #include <spdlog/spdlog.h>
 
 namespace AdrianEngine {

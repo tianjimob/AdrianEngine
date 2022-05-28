@@ -1,6 +1,6 @@
 #pragma once
 #include "Application.h"
-#include "Log.h"
+#include "aepch.h"
 
 #ifdef AE_PLATFORM_WINDOWS
 

@@ -1,14 +1,19 @@
 #pragma once
 #include "Core.h"
+#include "Events/Event.h"
+#include "Window.h"
+#include "aepch.h"
 
 namespace AdrianEngine {
 class AE_API Application {
-private:
-    /* data */
 public:
-    Application(/* args */);
+    Application();
     virtual ~Application();
     void run();
+
+private:
+    std::unique_ptr<Window> m_window;
+    bool m_isRunning = true;
 };
 
 // to be defined in CLIENT
