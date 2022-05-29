@@ -1,15 +1,19 @@
 #include "Application.h"
 
+#include "AdrianEngine/Core.h"
 #include "AdrianEngine/Events/ApplicationEvent.h"
 #include "AdrianEngine/Events/Event.h"
 #include "AdrianEngine/Log.h"
 #include "AdrianEngine/Window.h"
 #include "aepch.h"
 #include <functional>
-#include <gl/GL.h>
+#include <glad/glad.h>
 
 namespace AdrianEngine {
+Application *Application::ms_instance = nullptr;
 Application::Application(/* args */) {
+  AE_CORE_ASSERT(!ms_instance, "Application already exists!");
+  ms_instance = this;
   m_window = std::unique_ptr<Window>(Window::create());
   m_window->setEventCallback(
       std::bind(&Application::onEvent, this, std::placeholders::_1));
@@ -43,7 +47,13 @@ void Application::onEvent(Event &e) {
   }
 }
 
-void Application::pushLayer(Layer *layer) { m_layerStack.pushLayer(layer); }
+void Application::pushLayer(Layer *layer) {
+  m_layerStack.pushLayer(layer);
+  layer->onAttach();
+}
 
-void Application::pushOverlay(Layer *layer) { m_layerStack.pushOverlay(layer); }
+void Application::pushOverlay(Layer *layer) {
+  m_layerStack.pushOverlay(layer);
+  layer->onAttach();
+}
 } // namespace AdrianEngine

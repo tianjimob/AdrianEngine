@@ -12,7 +12,10 @@ public:
 };
 class SandboxApp : public AdrianEngine::Application {
 public:
-  SandboxApp(/* args */) { pushLayer(new ExampleLayer); }
+  SandboxApp(/* args */) {
+    pushLayer(new ExampleLayer);
+    pushLayer(new AdrianEngine::ImGuiLayer);
+  }
   ~SandboxApp() {}
 };
 

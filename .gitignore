@@ -5,6 +5,7 @@
 bin/
 bin-int/
 build/
+AdrianEngine/vendor/imgui/
 
 #Files
 compile_commands.json
