@@ -5,8 +5,8 @@
 #include "AdrianEngine/Events/Event.h"
 #include "AdrianEngine/Log.h"
 #include "AdrianEngine/Window.h"
+#include "Input.h"
 #include "aepch.h"
-#include <functional>
 #include <glad/glad.h>
 
 namespace AdrianEngine {
@@ -29,6 +29,9 @@ void Application::run() {
     for (auto *layer : m_layerStack) {
       layer->onUpdate();
     }
+
+    auto [x, y] = Input::getMousePosition();
+    AE_CORE_TRACE("{0}, {1}", x, y);
 
     m_window->onUpdate();
   }

@@ -151,4 +151,8 @@ void WindowsWindow::setVSync(bool enabled) {
 
 bool WindowsWindow::isVSync() const { return m_data.vSync; }
 
+void *WindowsWindow::getNativeWindow() const {
+  return static_cast<void *>(m_window);
+}
+
 } // namespace AdrianEngine
