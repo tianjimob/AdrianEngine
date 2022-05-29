@@ -5,6 +5,7 @@
 #include "AdrianEngine/Events/KeyEvent.h"
 #include "AdrianEngine/Events/MouseEvent.h"
 #include "AdrianEngine/Log.h"
+#include "GLFW/glfw3.h"
 #include "aepch.h"
 
 #include <glad/glad.h>
@@ -86,6 +87,13 @@ void WindowsWindow::init(const WindowProps &props) {
           data.eventCallback(*e);
         }
       });
+
+  glfwSetCharCallback(m_window, [](GLFWwindow *window, unsigned int codepoint) {
+    const WindowData &data{
+        *static_cast<WindowData *>(glfwGetWindowUserPointer(window))};
+    KeyTypedEvent e(codepoint);
+    data.eventCallback(e);
+  });
 
   glfwSetMouseButtonCallback(
       m_window, [](GLFWwindow *window, int button, int action, int) {

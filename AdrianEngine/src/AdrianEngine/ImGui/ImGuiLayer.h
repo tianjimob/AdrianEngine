@@ -1,7 +1,9 @@
 #pragma once
 
 #include "AdrianEngine/Core.h"
-#include "AdrianEngine/Events/Event.h"
+#include "AdrianEngine/Events/ApplicationEvent.h"
+#include "AdrianEngine/Events/KeyEvent.h"
+#include "AdrianEngine/Events/MouseEvent.h"
 #include "AdrianEngine/Layer.h"
 
 namespace AdrianEngine {
@@ -14,6 +16,16 @@ public:
   void onDetach() override;
   void onUpdate() override;
   void onEvent(Event &event) override;
+
+private:
+  bool onMouseButtonPressedEvent(MouseButtonPressedEvent &e);
+  bool onMouseButtonReleasedEvent(MouseButtonReleasedEvent &e);
+  bool onMouseMovedEvent(MouseMovedEvent &e);
+  bool onMouseScrolledEvent(MouseScrolledEvent &e);
+  bool onKeyPressedEvent(KeyPressedEvent &e);
+  bool onKeyReleasedEvent(KeyReleasedEvent &e);
+  bool onKeyTypedEvent(KeyTypedEvent &e);
+  bool onWindowResizeEvent(WindowResizeEvent &e);
 
 private:
   float m_time = 0.0f;
