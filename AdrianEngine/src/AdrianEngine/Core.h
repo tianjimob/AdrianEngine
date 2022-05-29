@@ -11,6 +11,10 @@
 #error AdrianEngine only support Windows!
 #endif
 
+#ifdef AE_DEBUG
+#define AE_ENABLE_ASSERTS
+#endif
+
 #ifdef AE_ENABLE_ASSERTS
 #define AE_ASSERT(x, ...)                                                      \
   {                                                                            \

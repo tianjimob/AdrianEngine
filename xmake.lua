@@ -1,4 +1,4 @@
-add_rules("mode.debug", "mode.release", "mode.minsizerel")
+add_rules("mode.debug", "mode.release", "mode.minsizerel", "mode.releasedbg")
 
 set_project("AdrianEngine")
 set_languages("c99", "c++20")
@@ -7,14 +7,6 @@ add_requires("spdlog", "glfw", "imgui")
 
 if is_os("windows") then
     add_defines("AE_PLATFORM_WINDOWS")
-end 
-
-if is_mode("release") then
-    add_cxxflags("/MD")
-elseif is_mode("debug") then
-    add_cxxflags("/MDd")
-elseif is_mode("minsizerel") then
-    add_cxxflags("/MD")
 end 
 
 function set_intermediatedir (path) 
@@ -43,15 +35,17 @@ target("AdrianEngine")
 
     if is_mode("release") then
         add_defines("AE_RELEASE")
+    elseif is_mode("releasedbg") then
+        add_defines("AE_DEBUG")
     elseif is_mode("debug") then
         add_defines("AE_DEBUG")
-        add_defines("AE_ENABLE_ASSERTS")
-        after_build(function (target) 
-            os.cp(target:targetfile(), targetprefix.."SandboxApp")
-        end)
     elseif is_mode("minsizerel") then
         add_defines("AE_MINSIZEREL")
     end 
+
+    after_build(function (target) 
+            os.cp(target:targetfile(), targetprefix.."SandboxApp")
+        end)
 
 target("SandboxApp")
     set_kind("binary")
