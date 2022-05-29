@@ -6,6 +6,18 @@ set_allowedarchs("x64")
 add_requires("spdlog", "glfw")
 add_packages("spdlog")
 
+if is_os("windows") then
+    add_defines("AE_PLATFORM_WINDOWS")
+end 
+
+if is_mode("release") then
+    add_cxxflags("/MD")
+elseif is_mode("debug") then
+    add_cxxflags("/MDd")
+elseif is_mode("minsizerel") then
+    add_cxxflags("/MD")
+end 
+
 function set_intermediatedir (path) 
     set_objectdir(path)
     set_dependir(path)
@@ -22,10 +34,7 @@ target("AdrianEngine")
     set_intermediatedir(intermediateprefix.."AdrianEngine")
     add_includedirs("AdrianEngine/src")
     set_pcxxheader("AdrianEngine/src/aepch.h")
-    
-    if is_os("windows") then
-        add_defines("AE_PLATFORM_WINDOWS", "AE_BUILD_DLL")
-    end
+    add_defines("AE_BUILD_DLL")
 
     if is_mode("release") then
         add_defines("AE_RELEASE")
@@ -46,6 +55,4 @@ target("SandboxApp")
     set_intermediatedir(intermediateprefix.."SandboxApp")
     add_includedirs("AdrianEngine/src")
     
-    if is_os("windows") then
-        add_defines("AE_PLATFORM_WINDOWS")
-    end 
+    

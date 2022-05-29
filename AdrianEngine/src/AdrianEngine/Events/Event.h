@@ -64,6 +64,7 @@ public:
   inline bool isCategory(EventCategory category) const {
     return getCategoryFlags() & category;
   }
+  inline bool isHandled() const { return m_handled; }
 
 private:
   bool m_handled{false};
