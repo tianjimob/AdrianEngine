@@ -1,3 +1,3 @@
 # AdrianEngine
 
-https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqa09ocE5nc3FGdzVVWEQ5WEctd1IwM0hPRVFkZ3xBQ3Jtc0tsTllxdTdBWERiVmMwaGlXT2R2UE5KZE52Z1JCQ2Y2RzdINHZFZGdEY0JVaC10X2c5S2JwdWl0X0IzU0doZy11bkE0bFp6Y29ad0NoQ0MxYW9PSGI1MFgzTmh3dFVQanI1WENfRGtyZXJGMXVWTzZORQ&q=https%3A%2F%2Fthecherno.com%2Fengine&v=_Kj6BSfM6P4
+https://www.youtube.com/playlist?list=PLlrATfBNZ98dC-V-N3m0Go4deliWHPFwT
