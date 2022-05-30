@@ -5,11 +5,6 @@
 bin/
 bin-int/
 build/
-AdrianEngine/vendor/imgui/.github
-AdrianEngine/vendor/imgui/backends
-AdrianEngine/vendor/imgui/docs
-AdrianEngine/vendor/imgui/examples
-AdrianEngine/vendor/imgui/misc
 
 #Files
 compile_commands.json
