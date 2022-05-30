@@ -1,0 +1,4 @@
+[submodule "AdrianEngine/vendor/imgui"]
+	path = AdrianEngine/vendor/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
