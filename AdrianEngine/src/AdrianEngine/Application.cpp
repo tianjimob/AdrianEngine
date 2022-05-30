@@ -30,9 +30,6 @@ void Application::run() {
       layer->onUpdate();
     }
 
-    auto [x, y] = Input::getMousePosition();
-    AE_CORE_TRACE("{0}, {1}", x, y);
-
     m_window->onUpdate();
   }
 }
