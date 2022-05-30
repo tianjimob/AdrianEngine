@@ -1,6 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "Events/Event.h"
+#include "ImGui/ImGuiLayer.h"
 #include "LayerStack.h"
 #include "Window.h"
 #include "aepch.h"
@@ -22,6 +23,7 @@ public:
 
 private:
   std::unique_ptr<Window> m_window;
+  ImGuiLayer *m_imGuiLayer;
   bool m_isRunning = true;
   LayerStack m_layerStack;
   static Application *ms_instance;

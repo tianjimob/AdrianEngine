@@ -3,6 +3,7 @@
 #include "AdrianEngine/Core.h"
 #include "AdrianEngine/Events/ApplicationEvent.h"
 #include "AdrianEngine/Events/Event.h"
+#include "AdrianEngine/ImGui/ImGuiLayer.h"
 #include "AdrianEngine/Log.h"
 #include "AdrianEngine/Window.h"
 #include "Input.h"
@@ -17,6 +18,8 @@ Application::Application(/* args */) {
   m_window = std::unique_ptr<Window>(Window::create());
   m_window->setEventCallback(
       std::bind(&Application::onEvent, this, std::placeholders::_1));
+  m_imGuiLayer = new ImGuiLayer;
+  pushOverlay(m_imGuiLayer);
 }
 
 Application::~Application() {}
@@ -29,6 +32,12 @@ void Application::run() {
     for (auto *layer : m_layerStack) {
       layer->onUpdate();
     }
+
+    m_imGuiLayer->begin();
+    for (auto *layer : m_layerStack) {
+      m_imGuiLayer->onImGuiRender();
+    }
+    m_imGuiLayer->end();
 
     m_window->onUpdate();
   }

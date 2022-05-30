@@ -1,9 +1,11 @@
 #pragma once
 
 #include "AdrianEngine/Core.h"
+
 #include "AdrianEngine/Events/ApplicationEvent.h"
 #include "AdrianEngine/Events/KeyEvent.h"
 #include "AdrianEngine/Events/MouseEvent.h"
+
 #include "AdrianEngine/Layer.h"
 
 namespace AdrianEngine {
@@ -14,8 +16,14 @@ public:
 
   void onAttach() override;
   void onDetach() override;
-  void onUpdate() override;
-  void onEvent(Event &event) override;
+  void onUpdate() override { /* don't need*/
+  }
+  void onEvent(Event &event) override { /* don't need*/
+  }
+  void onImGuiRender() override;
+
+  void begin();
+  void end();
 
 private:
   bool onMouseButtonPressedEvent(MouseButtonPressedEvent &e);

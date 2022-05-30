@@ -20,7 +20,7 @@ public:
 
 private:
   std::vector<Layer *> m_layers;
-  std::vector<Layer *>::iterator m_layerInsert;
+  unsigned m_layerInsertIndex{0};
 };
 
 } // namespace AdrianEngine

@@ -13,6 +13,7 @@ public:
   virtual void onDetach() = 0;
   virtual void onUpdate() = 0;
   virtual void onEvent(Event &event) = 0;
+  virtual void onImGuiRender() = 0;
 
   inline std::string_view getName() const { return m_debugName; }
 
