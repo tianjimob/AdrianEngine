@@ -53,7 +53,10 @@ target("AdrianEngine")
         add_defines("AE_MINSIZEREL")
     end 
 
-    after_build(function (target) 
+    after_build(function (target)
+        if not os.exists(targetprefix.."SandboxApp") then 
+            os.mkdir(targetprefix.."SandboxApp")
+        end
         os.cp(target:targetfile(), targetprefix.."SandboxApp")
     end)
 

@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 
 namespace AdrianEngine {
-Input *Input::ms_instance{new WindowsInput};
+Input *Input::ms_instance = new WindowsInput;
 
 bool WindowsInput::isKeyPressedImpl(int keycode) {
   auto *window = static_cast<GLFWwindow *>(

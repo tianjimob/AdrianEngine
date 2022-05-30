@@ -1,5 +1,4 @@
 #include "AdrianEngine.h"
-#include "AdrianEngine/Log.h"
 #include "imgui.h"
 class ExampleLayer : public AdrianEngine::Layer {
 public:
