@@ -5,10 +5,7 @@
 #include "AdrianEngine/Events/KeyEvent.h"
 #include "AdrianEngine/Events/MouseEvent.h"
 #include "AdrianEngine/Log.h"
-#include "GLFW/glfw3.h"
 #include "aepch.h"
-
-#include <glad/glad.h>
 
 namespace AdrianEngine {
 
@@ -42,9 +39,8 @@ void WindowsWindow::init(const WindowProps &props) {
 
   m_window = glfwCreateWindow(props.width, props.height, m_data.title.c_str(),
                               nullptr, nullptr);
-  glfwMakeContextCurrent(m_window);
-  int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-  AE_CORE_ASSERT(status, "Faild to intialized Glad!");
+  m_context = new OpenGLContext(m_window);
+  m_context->init();
   glfwSetWindowUserPointer(m_window, &m_data);
   setVSync(true);
 
@@ -139,7 +135,7 @@ void WindowsWindow::shutdown() { glfwDestroyWindow(m_window); }
 
 void WindowsWindow::onUpdate() {
   glfwPollEvents();
-  glfwSwapBuffers(m_window);
+  m_context->swapBuffers();
 }
 
 void WindowsWindow::setVSync(bool enabled) {

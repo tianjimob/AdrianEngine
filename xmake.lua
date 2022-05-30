@@ -1,13 +1,13 @@
 add_rules("mode.debug", "mode.release", "mode.minsizerel", "mode.releasedbg")
 
 set_project("AdrianEngine")
-set_languages("c99", "c++20")
+set_languages("c++20")
 set_allowedarchs("x64")
 add_requires("spdlog", "glfw", "glm")
 
 if is_os("windows") then
     add_defines("AE_PLATFORM_WINDOWS")
-end 
+end
 
 function set_intermediatedir (path) 
     set_objectdir(path)

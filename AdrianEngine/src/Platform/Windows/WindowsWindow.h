@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AdrianEngine/Window.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 #include <GLFW/glfw3.h>
 
 namespace AdrianEngine {
@@ -29,6 +30,7 @@ private:
   void shutdown();
 
   GLFWwindow *m_window;
+  OpenGLContext *m_context;
   struct WindowData {
     std::string title;
     unsigned width;
