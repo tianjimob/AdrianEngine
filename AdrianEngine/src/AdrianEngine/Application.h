@@ -26,6 +26,9 @@ private:
   ImGuiLayer *m_imGuiLayer;
   bool m_isRunning = true;
   LayerStack m_layerStack;
+  unsigned m_vertexArray;
+  unsigned m_vertexBuffer;
+  unsigned m_indexBuffer;
   static Application *ms_instance;
 };
 
