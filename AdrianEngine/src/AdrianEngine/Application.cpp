@@ -13,16 +13,13 @@
 namespace AdrianEngine {
 Application *Application::ms_instance = nullptr;
 Application::Application(/* args */) {
-  AE_CORE_ASSERT(!ms_instance, "Application already exists!");
+  AE_CORE_ASSERT(!ms_instance, "Application already exists!")
   ms_instance = this;
-  m_window = std::unique_ptr<Window>(Window::create());
-  m_window->setEventCallback(
-      std::bind(&Application::onEvent, this, std::placeholders::_1));
+  m_window = std::unique_ptr<Window>{Window::create()};
+  m_window->setEventCallback(std::bind_front(&Application::onEvent, this));
   m_imGuiLayer = new ImGuiLayer;
   pushOverlay(m_imGuiLayer);
 }
-
-Application::~Application() {}
 
 void Application::run() {
   while (m_isRunning) {
@@ -35,7 +32,7 @@ void Application::run() {
 
     m_imGuiLayer->begin();
     for (auto *layer : m_layerStack) {
-      m_imGuiLayer->onImGuiRender();
+      layer->onImGuiRender();
     }
     m_imGuiLayer->end();
 

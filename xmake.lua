@@ -30,6 +30,7 @@ target("imgui")
     add_headerfiles("AdrianEngine/vendor/imgui/*.h")
     set_targetdir(targetprefix.."imgui")
     set_intermediatedir(intermediateprefix.."imgui")
+    add_defines("IMGUI_API=__declspec(dllexport)") 
 
 target("AdrianEngine")
     set_kind("shared")
@@ -63,6 +64,4 @@ target("SandboxApp")
     add_packages("spdlog", "glm")
     set_targetdir(targetprefix.."SandboxApp")
     set_intermediatedir(intermediateprefix.."SandboxApp")
-    add_includedirs("AdrianEngine/src")
-    
-    
+    add_includedirs("AdrianEngine/src", "AdrianEngine/vendor/imgui")

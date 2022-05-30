@@ -10,7 +10,7 @@ namespace AdrianEngine {
 class AE_API Application {
 public:
   Application();
-  virtual ~Application();
+  virtual ~Application() = default;
   void run();
 
   void onEvent(Event &e);

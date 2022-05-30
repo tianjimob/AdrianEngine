@@ -85,6 +85,7 @@ void WindowsWindow::init(const WindowProps &props) {
         }
         if (e) {
           data.eventCallback(*e);
+          delete e;
         }
       });
 
@@ -112,6 +113,7 @@ void WindowsWindow::init(const WindowProps &props) {
         }
         if (e) {
           data.eventCallback(*e);
+          delete e;
         }
       });
 

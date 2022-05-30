@@ -6,6 +6,7 @@
 namespace AdrianEngine {
 class AE_API Input {
 public:
+  virtual ~Input() = default;
   inline static bool isKeyPressed(int keycode) {
     return ms_instance->isKeyPressedImpl(keycode);
   }

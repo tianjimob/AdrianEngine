@@ -8,7 +8,7 @@ class WindowsWindow : public Window {
 
 public:
   explicit WindowsWindow(const WindowProps &props);
-  virtual ~WindowsWindow();
+  ~WindowsWindow() override;
 
   void onUpdate() override;
 
@@ -28,7 +28,6 @@ private:
   void init(const WindowProps &props);
   void shutdown();
 
-private:
   GLFWwindow *m_window;
   struct WindowData {
     std::string title;
