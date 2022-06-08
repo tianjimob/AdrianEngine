@@ -39,7 +39,7 @@ target("AdrianEngine")
     add_packages("glfw", "spdlog", "glm")
     set_targetdir(targetprefix.."AdrianEngine")
     set_intermediatedir(intermediateprefix.."AdrianEngine")
-    add_includedirs("AdrianEngine/src", "AdrianEngine/vendor/GLAD/include", "AdrianEngine/vendor/imgui")
+    add_includedirs("AdrianEngine/src", "AdrianEngine/vendor/imgui", "AdrianEngine/vendor/GLAD/include")
     set_pcxxheader("AdrianEngine/src/aepch.h")
     add_defines("AE_BUILD_DLL")
 

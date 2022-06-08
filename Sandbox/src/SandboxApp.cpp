@@ -1,7 +1,7 @@
 #include "AdrianEngine.h"
 #include "imgui.h"
 class ExampleLayer : public AdrianEngine::Layer {
-public:
+ public:
   ExampleLayer() : Layer("example") {}
   void onUpdate() override {
     if (AdrianEngine::Input::isKeyPressed(AE_KEY_TAB)) {
@@ -27,7 +27,7 @@ public:
   }
 };
 class SandboxApp : public AdrianEngine::Application {
-public:
+ public:
   SandboxApp(/* args */) { pushLayer(new ExampleLayer); }
 };
 

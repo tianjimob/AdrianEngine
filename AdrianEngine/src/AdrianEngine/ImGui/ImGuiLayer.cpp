@@ -1,4 +1,7 @@
 #include "ImGuiLayer.h"
+
+#include <GLFW/glfw3.h>
+
 #include "AdrianEngine/Application.h"
 #include "AdrianEngine/Core.h"
 #include "AdrianEngine/Events/Event.h"
@@ -6,7 +9,6 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "imgui.h"
-#include <GLFW/glfw3.h>
 
 namespace AdrianEngine {
 ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {}
@@ -20,18 +22,18 @@ void ImGuiLayer::onAttach() {
   ImGuiIO &io = ImGui::GetIO();
   (void)io;
   io.ConfigFlags |=
-      ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+      ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
   // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad
   // Controls
-  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;   // Enable Docking
-  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport /
-                                                      // Platform Windows
+  io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;    // Enable Docking
+  io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;  // Enable Multi-Viewport
+                                                       // / Platform Windows
   // io.ConfigViewportsNoAutoMerge = true;
   // io.ConfigViewportsNoTaskBarIcon = true;
 
   // Setup Dear ImGui style
-  ImGui::StyleColorsDark();
-  // ImGui::StyleColorsClassic();
+  // ImGui::StyleColorsDark();
+  ImGui::StyleColorsClassic();
 
   // When viewports are enabled we tweak WindowRounding/WindowBg so platform
   // windows can look identical to regular ones.
@@ -83,4 +85,4 @@ void ImGuiLayer::end() {
   }
 }
 
-} // namespace AdrianEngine
+}  // namespace AdrianEngine
