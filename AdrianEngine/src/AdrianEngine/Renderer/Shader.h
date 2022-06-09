@@ -18,18 +18,13 @@ class AE_API Shader {
                   float v4);
   void setUniform(std::string_view name, const glm::mat4& matrix);
 
-  int getUniform(std::string_view name);
+  int32_t getUniform(std::string_view name);
 
  private:
   unsigned m_rendererID{0};
   std::unordered_map<std::string_view, unsigned> m_uniforms;
 
   enum class ShaderType : unsigned;
-  // struct ShaderSource {
-  //   std::string vertex;
-  //   std::string fragment;
-  // };
-  // ShaderSource parseShader(std::string_view path) const;
   unsigned compileShader(ShaderType type, std::string_view shaderSource) const;
 };
 }  // namespace AdrianEngine

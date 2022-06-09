@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <malloc.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include "AdrianEngine/Log.h"
 namespace AdrianEngine {
 
@@ -42,53 +44,33 @@ Shader::Shader(std::string_view vertexShader, std::string_view fragmentShader) {
 
 Shader::~Shader() { glDeleteProgram(m_rendererID); }
 
-void Shader::bind() const { glUseProgram(m_rendererID); }
+inline void Shader::bind() const { glUseProgram(m_rendererID); }
 
-void Shader::unbind() const { glUseProgram(0); }
+inline void Shader::unbind() const { glUseProgram(0); }
 
-void Shader::setUniform(const std::string_view name, int value) {
+inline void Shader::setUniform(const std::string_view name, int value) {
+  bind();
   glUniform1i(getUniform(name), value);
 }
 
-void Shader::setUniform(std::string_view name, float v1, float v2, float v3,
-                        float v4) {
+inline void Shader::setUniform(std::string_view name, float v1, float v2,
+                               float v3, float v4) {
+  bind();
   glUniform4f(getUniform(name), v1, v2, v3, v4);
 }
 
-void Shader::setUniform(std::string_view name, const glm::mat4 &matrix) {
-  glUniformMatrix4fv(getUniform(name), 1, GL_FALSE, &matrix[0][0]);
+inline void Shader::setUniform(std::string_view name, const glm::mat4 &matrix) {
+  bind();
+  glUniformMatrix4fv(getUniform(name), 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
-int Shader::getUniform(std::string_view name) {
+int32_t Shader::getUniform(std::string_view name) {
   if (auto uniform = m_uniforms.find(name); uniform != m_uniforms.end())
     return uniform->second;
-  int location = glGetUniformLocation(m_rendererID, name.data());
+  int32_t location = glGetUniformLocation(m_rendererID, name.data());
   m_uniforms[name] = location;
   return location;
 }
-
-// Shader::ShaderSource Shader::parseShader(std::string_view path) const {
-//   std::ifstream ifs(path.data());
-//   std::stringstream ss;
-//   ss << ifs.rdbuf();
-//   ifs.close();
-//   auto source = ss.str();
-//   std::regex vertexRegex("^#shader vertex\\s+(#[^#]*)#end");
-//   std::regex fragmentRegex("^#shader fragment\\s+(#[^#]*)#end");
-//   std::smatch vertexMatch;
-//   std::smatch fragmentMatch;
-//   bool vSuccess = std::regex_search(source, vertexMatch, vertexRegex);
-//   bool fSuccess = std::regex_search(source, fragmentMatch, fragmentRegex);
-//   if (!vSuccess && !fSuccess) {
-//     throw NotFound(
-//         "[RegexSearch Error] VertexShader and FragmentShader Not Found!");
-//   } else if (!vSuccess) {
-//     throw NotFound("[RegexSearch Error] VertexShader not found!");
-//   } else if (!fSuccess) {
-//     throw NotFound("[RegexSearch Error] FragmentShader not found!");
-//   }
-//   return {vertexMatch[1], fragmentMatch[1]};
-// }
 
 unsigned Shader::compileShader(ShaderType type,
                                std::string_view shaderSource) const {
@@ -106,8 +88,8 @@ unsigned Shader::compileShader(ShaderType type,
     glGetShaderInfoLog(id, length, nullptr, message);
     glDeleteShader(id);
     AE_CORE_ERROR("[Compile Error] {0}: {1}",
-                  type == ShaderType::FragmentShader ? "VertexShader: "
-                                                     : "FragmentShader: ",
+                  type == ShaderType::VertexShader ? "VertexShader: "
+                                                   : "FragmentShader: ",
                   message);
     AE_CORE_ASSERT(false, "failed compile shader")
     return 0;

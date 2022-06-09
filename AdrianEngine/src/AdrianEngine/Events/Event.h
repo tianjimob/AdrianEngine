@@ -1,6 +1,5 @@
 #pragma once
 #include "AdrianEngine/Core.h"
-
 #include "aepch.h"
 
 namespace AdrianEngine {
@@ -44,18 +43,18 @@ enum EventCategory {
   EventCategoryMouseButton = bitLShift(4)
 };
 
-#define EVENT_CLASS_TYPE(type)                                                 \
-  static EventType getStaticType() { return (type); }                          \
-  virtual EventType getEventType() const override { return getStaticType(); }  \
+#define EVENT_CLASS_TYPE(type)                                                \
+  static EventType getStaticType() { return (type); }                         \
+  virtual EventType getEventType() const override { return getStaticType(); } \
   virtual std::string_view getName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category)                                         \
+#define EVENT_CLASS_CATEGORY(category) \
   virtual int getCategoryFlags() const override { return category; }
 
 class AE_API Event {
   friend class EventDispatcher;
 
-public:
+ public:
   virtual ~Event() = default;
   virtual EventType getEventType() const = 0;
   virtual std::string_view getName() const = 0;
@@ -67,25 +66,27 @@ public:
   }
   inline bool isHandled() const { return m_handled; }
 
-private:
+ private:
   bool m_handled{false};
 };
 
 class EventDispatcher {
-  template <typename T> using EventCallback = std::function<bool(T &)>;
+  template <typename T>
+  using EventCallback = std::function<bool(T &)>;
 
-public:
+ public:
   explicit EventDispatcher(Event &event) : m_event(event) {}
 
-  template <typename T> bool dispatch(EventCallback<T> callback) {
+  template <typename T>
+  bool dispatch(EventCallback<T> callback) {
     if (m_event.getEventType() == T::getStaticType()) {
-      m_event.m_handled = callback(*reinterpret_cast<T *>(&m_event));
+      m_event.m_handled = callback(*(T *)(&m_event));
       return true;
     }
     return false;
   }
 
-private:
+ private:
   Event &m_event;
 };
-} // namespace AdrianEngine
+}  // namespace AdrianEngine

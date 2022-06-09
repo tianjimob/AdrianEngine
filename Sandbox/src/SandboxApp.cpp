@@ -1,7 +1,15 @@
 #include <memory>
 
 #include "AdrianEngine.h"
+#include "AdrianEngine/Events/Event.h"
+#include "AdrianEngine/Events/KeyEvent.h"
+#include "AdrianEngine/Events/MouseEvent.h"
+#include "AdrianEngine/Input.h"
+#include "AdrianEngine/KeyCodes.h"
+#include "AdrianEngine/Renderer/Buffer.h"
+#include "AdrianEngine/Renderer/Shader.h"
 #include "AdrianEngine/Renderer/VertexArray.h"
+#include "glm/fwd.hpp"
 #include "imgui.h"
 
 class ExampleLayer : public AdrianEngine::Layer {
@@ -11,25 +19,41 @@ class ExampleLayer : public AdrianEngine::Layer {
     if (AdrianEngine::Input::isKeyPressed(AE_KEY_TAB)) {
       AE_TRACE("Tab key is pressed");
     }
+    if (AdrianEngine::Input::isKeyPressed(AE_KEY_RIGHT)) {
+      orthoCamera.setPosition(orthoCamera.getPosition() +
+                              glm::vec3(-0.01f, 0.0f, 0.0f));
+    }
+    if (AdrianEngine::Input::isKeyPressed(AE_KEY_LEFT)) {
+      orthoCamera.setPosition(orthoCamera.getPosition() +
+                              glm::vec3(0.01f, 0.0f, 0.0f));
+    }
+    if (AdrianEngine::Input::isKeyPressed(AE_KEY_UP)) {
+      orthoCamera.setPosition(orthoCamera.getPosition() +
+                              glm::vec3(0.0f, -0.01f, 0.0f));
+    }
+    if (AdrianEngine::Input::isKeyPressed(AE_KEY_DOWN)) {
+      orthoCamera.setPosition(orthoCamera.getPosition() +
+                              glm::vec3(0.01f, 0.01f, 0.0f));
+    }
     AdrianEngine::RendererCommand::setClearColor({.1f, .1f, .0f, 1.0f});
     AdrianEngine::RendererCommand::clear();
 
     AdrianEngine::Renderer::beginScene();
 
     m_shader->bind();
+    m_shader->setUniform("u_ViewProjection", orthoCamera.getViewProjection());
     AdrianEngine::Renderer::submit(m_vertexArray);
 
     AdrianEngine::Renderer::endScene();
   }
 
   void onEvent(AdrianEngine::Event &event) override {
-    if (event.getEventType() == AdrianEngine::EventType::KeyPressed) {
-      if (const AdrianEngine::KeyPressedEvent &
-              e{dynamic_cast<AdrianEngine::KeyPressedEvent &>(event)};
-          e.getKeyCode() == AE_KEY_TAB)
-        AE_TRACE("Tab key is pressed");
-      ;
-    }
+    AdrianEngine::EventDispatcher dispatcher{event};
+    dispatcher.dispatch<AdrianEngine::KeyPressedEvent>(
+        [](const AdrianEngine::KeyPressedEvent &e) {
+          if (e.getKeyCode() == AE_KEY_TAB) AE_TRACE("Tab key is pressed");
+          return true;
+        });
   }
   void onAttach() override {
     using namespace AdrianEngine;
@@ -60,10 +84,12 @@ class ExampleLayer : public AdrianEngine::Layer {
     out vec3 v_Position;
     out vec4 v_Color;
 
+    uniform mat4 u_ViewProjection;
+
     void main() {
       v_Position = a_Position;
       v_Color = a_Color;
-      gl_Position = vec4(a_Position, 1.0f);
+      gl_Position = u_ViewProjection * vec4(a_Position, 1.0f);
     }
   )";
 
@@ -90,6 +116,7 @@ class ExampleLayer : public AdrianEngine::Layer {
  private:
   std::shared_ptr<AdrianEngine::Shader> m_shader;
   std::shared_ptr<AdrianEngine::VertexArray> m_vertexArray;
+  AdrianEngine::OrthographicCamera orthoCamera{-1.0f, 1.0f, -1.0f, 1.0f};
 };
 class SandboxApp : public AdrianEngine::Application {
  public:
