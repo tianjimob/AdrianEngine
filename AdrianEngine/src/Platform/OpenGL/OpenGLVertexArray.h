@@ -8,7 +8,7 @@ namespace AdrianEngine {
 class OpenGLVertexArray : public VertexArray {
  public:
   OpenGLVertexArray();
-  ~OpenGLVertexArray() override = default;
+  ~OpenGLVertexArray() override;
   void bind() const override;
   void unbind() const override;
   void addVertexBuffer(

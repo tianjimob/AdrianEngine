@@ -11,6 +11,8 @@
 #include "AdrianEngine/ImGui/ImGuiLayer.h"
 #include "AdrianEngine/Log.h"
 #include "AdrianEngine/Renderer/Buffer.h"
+#include "AdrianEngine/Renderer/Renderer.h"
+#include "AdrianEngine/Renderer/RendererCommand.h"
 #include "AdrianEngine/Renderer/Shader.h"
 #include "AdrianEngine/Renderer/VertexArray.h"
 #include "AdrianEngine/Window.h"
@@ -77,12 +79,15 @@ Application::Application() {
 
 void Application::run() {
   while (m_isRunning) {
-    glClearColor(.1f, .1f, .1f, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    RendererCommand::setClearColor({.1f, .1f, .0f, 1.0f});
+    RendererCommand::clear();
+
+    Renderer::beginScene();
 
     m_shader->bind();
-    m_vertexArray->bind();
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+    Renderer::submit(m_vertexArray);
+
+    Renderer::endScene();
 
     for (auto *layer : m_layerStack) {
       layer->onUpdate();

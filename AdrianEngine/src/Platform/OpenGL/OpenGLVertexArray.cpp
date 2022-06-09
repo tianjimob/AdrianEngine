@@ -8,6 +8,10 @@
 namespace AdrianEngine {
 OpenGLVertexArray::OpenGLVertexArray() { glGenVertexArrays(1, &m_rendererID); }
 
+OpenGLVertexArray::~OpenGLVertexArray() {
+  glDeleteVertexArrays(1, &m_rendererID);
+}
+
 inline void OpenGLVertexArray::bind() const { glBindVertexArray(m_rendererID); }
 
 inline void OpenGLVertexArray::unbind() const { glBindVertexArray(0); }

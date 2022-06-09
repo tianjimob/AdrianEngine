@@ -10,8 +10,8 @@ class OpenGLVertexBuffer : public VertexBuffer {
   ~OpenGLVertexBuffer() override = default;
   void bind() const override;
   void unbind() const override;
-  inline void setLayout(const BufferLayout& layout) override;
-  inline BufferLayout& getLayout() override;
+  void setLayout(const BufferLayout& layout) override;
+  BufferLayout& getLayout() override;
 
  private:
   std::uint32_t m_rendererID;
@@ -24,8 +24,10 @@ class OpenGLIndexBuffer : public IndexBuffer {
   ~OpenGLIndexBuffer() override = default;
   void bind() const override;
   void unbind() const override;
+  uint32_t count() const override;
 
  private:
-  std::uint32_t m_rendererID;
+  uint32_t m_rendererID;
+  uint32_t m_count;
 };
 }  // namespace AdrianEngine
