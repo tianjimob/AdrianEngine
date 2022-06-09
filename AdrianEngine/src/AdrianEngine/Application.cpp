@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include <glad/glad.h>
+#include <stdint.h>
 
 #include <memory>
 
@@ -11,13 +12,14 @@
 #include "AdrianEngine/Log.h"
 #include "AdrianEngine/Renderer/Buffer.h"
 #include "AdrianEngine/Renderer/Shader.h"
+#include "AdrianEngine/Renderer/VertexArray.h"
 #include "AdrianEngine/Window.h"
 #include "Input.h"
 #include "aepch.h"
 
 namespace AdrianEngine {
 Application *Application::ms_instance = nullptr;
-Application::Application(/* args */) {
+Application::Application() {
   AE_CORE_ASSERT(!ms_instance, "Application already exists!")
   ms_instance = this;
   m_window = std::unique_ptr<Window>{Window::create()};
@@ -25,32 +27,23 @@ Application::Application(/* args */) {
   m_imGuiLayer = new ImGuiLayer;
   pushOverlay(m_imGuiLayer);
 
-  float vertices[3 * 7]{
+  std::array vertices{
       -0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.8f, 1.0f,  // 0
       0.5f,  -0.5f, 0.0f, 0.2f, 0.3f, 0.8f, 1.0f,  // 1
       0.0f,  0.5f,  0.0f, 0.8f, 0.8f, 0.2f, 1.0f   // 2
   };
-  unsigned indices[3]{0, 1, 2};
+  std::array<uint32_t, 3> indices{0, 1, 2};
 
-  glGenVertexArrays(1, &m_vertexArray);
-  glBindVertexArray(m_vertexArray);
-
-  m_vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
+  std::shared_ptr<VertexBuffer> vertexBuffer;
+  m_vertexArray.reset(VertexArray::create());
+  vertexBuffer.reset(VertexBuffer::create(vertices.data(), sizeof(vertices)));
   BufferLayout layout{{ShaderDataType::Float3, "a_Position"},
                       {ShaderDataType::Float4, "a_Color"}};
-  m_vertexBuffer->setLayout(layout);
-
-  int index = 0;
-  uint32_t stride = m_vertexBuffer->getLayout().stride();
-  for (const auto &elem : m_vertexBuffer->getLayout()) {
-    glEnableVertexAttribArray(index);
-    glVertexAttribPointer(index, elem.count(), elem.toOpenGL(),
-                          elem.normalized ? GL_TRUE : GL_FALSE, stride,
-                          (const void *)elem.offset);
-    ++index;
-  }
-
-  m_indexBuffer.reset(IndexBuffer::create(indices, 3));
+  vertexBuffer->setLayout(layout);
+  m_vertexArray->addVertexBuffer(vertexBuffer);
+  std::shared_ptr<IndexBuffer> indexBuffer;
+  indexBuffer.reset(IndexBuffer::create(indices.data(), 3));
+  m_vertexArray->setIndexBuffer(indexBuffer);
 
   std::string_view vertexShader = R"(
     #version 330 core
@@ -88,7 +81,7 @@ void Application::run() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     m_shader->bind();
-    glBindVertexArray(m_vertexArray);
+    m_vertexArray->bind();
     glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
     for (auto *layer : m_layerStack) {

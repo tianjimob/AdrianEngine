@@ -1,10 +1,12 @@
 #include "Buffer.h"
 
+#include <glad/glad.h>
+
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 namespace AdrianEngine {
 
-uint32_t BufferElement::count() const {
+inline uint32_t BufferElement::count() const {
   static std::array count{
       0,                   // None
       1,     2,     3, 4,  // Float*
@@ -15,7 +17,7 @@ uint32_t BufferElement::count() const {
   return count[static_cast<uint8_t>(type)];
 }
 
-uint32_t BufferElement::typeSize() const {
+inline uint32_t BufferElement::typeSize() const {
   static std::array size{
       0,                                   // None
       4,         4 * 2,     4 * 3, 4 * 4,  // Float*
@@ -26,6 +28,17 @@ uint32_t BufferElement::typeSize() const {
   return size[static_cast<uint8_t>(type)];
 }
 
+inline GLenum BufferElement::toOpenGL() const {
+  static std::array<GLenum, 12> OpenGL{
+      GL_FALSE,                                // None
+      GL_FLOAT, GL_FLOAT, GL_FLOAT, GL_FLOAT,  // Float*
+      GL_FLOAT, GL_FLOAT,                      // Mat*
+      GL_INT,   GL_INT,   GL_INT,   GL_INT,    // Int*
+      GL_BOOL                                  // Bool
+  };
+  return OpenGL[static_cast<std::uint8_t>(type)];
+}
+
 BufferLayout::BufferLayout(const std::initializer_list<BufferElement>& elements)
     : m_bufferElements{elements} {
   for (auto& elem : m_bufferElements) {
@@ -34,25 +47,25 @@ BufferLayout::BufferLayout(const std::initializer_list<BufferElement>& elements)
   }
 }
 
-const std::vector<BufferElement>& BufferLayout::get() const {
+inline const std::vector<BufferElement>& BufferLayout::get() const {
   return m_bufferElements;
 }
 
-uint32_t BufferLayout::stride() const { return m_stride; }
+inline uint32_t BufferLayout::stride() const { return m_stride; }
 
-std::vector<BufferElement>::iterator BufferLayout::begin() {
+inline std::vector<BufferElement>::iterator BufferLayout::begin() {
   return m_bufferElements.begin();
 }
 
-std::vector<BufferElement>::iterator BufferLayout::end() {
+inline std::vector<BufferElement>::iterator BufferLayout::end() {
   return m_bufferElements.end();
 }
 
-std::vector<BufferElement>::const_iterator BufferLayout::cbegin() const {
+inline std::vector<BufferElement>::const_iterator BufferLayout::cbegin() const {
   return m_bufferElements.cbegin();
 }
 
-std::vector<BufferElement>::const_iterator BufferLayout::cend() const {
+inline std::vector<BufferElement>::const_iterator BufferLayout::cend() const {
   return m_bufferElements.cend();
 }
 

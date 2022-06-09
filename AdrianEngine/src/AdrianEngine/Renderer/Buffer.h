@@ -1,5 +1,6 @@
 #pragma once
-#include <glad/glad.h>
+
+#include <stdint.h>
 
 #include "AdrianEngine/Core.h"
 #include "AdrianEngine/Events/Event.h"
@@ -32,28 +33,19 @@ struct AE_API BufferElement {
   BufferElement(ShaderDataType type, std::string_view name,
                 bool normalized = false)
       : name(name), type(type), size(typeSize()), normalized(normalized) {}
-  inline uint32_t count() const;
-  inline GLenum toOpenGL() const {
-    static std::array<GLenum, 12> OpenGL{
-        GL_FALSE,                                // None
-        GL_FLOAT, GL_FLOAT, GL_FLOAT, GL_FLOAT,  // Float*
-        GL_FLOAT, GL_FLOAT,                      // Mat*
-        GL_INT,   GL_INT,   GL_INT,   GL_INT,    // Int*
-        GL_BOOL                                  // Bool
-    };
-    return OpenGL[static_cast<std::uint8_t>(type)];
-  }
+  uint32_t count() const;
+  uint32_t toOpenGL() const;
 
  private:
-  inline uint32_t typeSize() const;
+  uint32_t typeSize() const;
 };
 
 class AE_API BufferLayout {
  public:
   BufferLayout() = default;
   explicit BufferLayout(const std::initializer_list<BufferElement> &elements);
-  inline const std::vector<BufferElement> &get() const;
-  inline uint32_t stride() const;
+  const std::vector<BufferElement> &get() const;
+  uint32_t stride() const;
 
   std::vector<BufferElement>::iterator begin();
   std::vector<BufferElement>::iterator end();

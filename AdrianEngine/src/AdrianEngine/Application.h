@@ -7,6 +7,7 @@
 #include "LayerStack.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
 #include "Window.h"
 #include "aepch.h"
 
@@ -30,10 +31,8 @@ class AE_API Application {
   ImGuiLayer *m_imGuiLayer;
   bool m_isRunning = true;
   LayerStack m_layerStack;
-  unsigned m_vertexArray;
-  std::unique_ptr<Shader> m_shader;
-  std::unique_ptr<VertexBuffer> m_vertexBuffer;
-  std::unique_ptr<IndexBuffer> m_indexBuffer;
+  std::shared_ptr<Shader> m_shader;
+  std::shared_ptr<VertexArray> m_vertexArray;
   static Application *ms_instance;
 };
 
