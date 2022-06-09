@@ -4,6 +4,7 @@
 #include <malloc.h>
 
 #include "AdrianEngine/Log.h"
+namespace AdrianEngine {
 
 enum class Shader::ShaderType : unsigned {
   FragmentShader = GL_FRAGMENT_SHADER,
@@ -113,3 +114,4 @@ unsigned Shader::compileShader(ShaderType type,
   }
   return id;
 }
+}  // namespace AdrianEngine

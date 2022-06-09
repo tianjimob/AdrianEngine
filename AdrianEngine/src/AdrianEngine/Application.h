@@ -31,8 +31,6 @@ class AE_API Application {
   ImGuiLayer *m_imGuiLayer;
   bool m_isRunning = true;
   LayerStack m_layerStack;
-  std::shared_ptr<Shader> m_shader;
-  std::shared_ptr<VertexArray> m_vertexArray;
   static Application *ms_instance;
 };
 

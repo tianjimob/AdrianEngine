@@ -8,6 +8,10 @@
 #include "AdrianEngine/Layer.h"
 #include "AdrianEngine/Log.h"
 #include "AdrianEngine/MouseButtonCodes.h"
+#include "AdrianEngine/Renderer/Renderer.h"
+#include "AdrianEngine/Renderer/RendererCommand.h"
+#include "AdrianEngine/Renderer/Shader.h"
+#include "AdrianEngine/Renderer/VertexArray.h"
 
 // -- Entry point
 #include "AdrianEngine/EntryPoint.h"

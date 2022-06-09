@@ -4,7 +4,7 @@
 
 #include "AdrianEngine/Core.h"
 #include "aepch.h"
-
+namespace AdrianEngine {
 class AE_API Shader {
  public:
   Shader(std::string_view vertexShader, std::string_view fragmentShader);
@@ -32,3 +32,4 @@ class AE_API Shader {
   // ShaderSource parseShader(std::string_view path) const;
   unsigned compileShader(ShaderType type, std::string_view shaderSource) const;
 };
+}  // namespace AdrianEngine
