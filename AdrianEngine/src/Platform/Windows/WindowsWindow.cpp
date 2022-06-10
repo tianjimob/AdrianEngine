@@ -1,10 +1,13 @@
 #include "WindowsWindow.h"
 
+#include <glad/glad.h>
+
 #include "AdrianEngine/Events/ApplicationEvent.h"
 #include "AdrianEngine/Events/Event.h"
 #include "AdrianEngine/Events/KeyEvent.h"
 #include "AdrianEngine/Events/MouseEvent.h"
 #include "AdrianEngine/Log.h"
+#include "GLFW/glfw3.h"
 #include "aepch.h"
 
 namespace AdrianEngine {
@@ -135,6 +138,10 @@ void WindowsWindow::shutdown() { glfwDestroyWindow(m_window); }
 
 void WindowsWindow::onUpdate() {
   glfwPollEvents();
+  int width;
+  int height;
+  glfwGetFramebufferSize(m_window, &width, &height);
+  glViewport(0, 0, width, height);
   m_context->swapBuffers();
 }
 

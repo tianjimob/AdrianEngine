@@ -15,7 +15,8 @@ class AE_API Renderer {
   static void beginScene(const OrthographicCamera &camera);
   static void endScene();
   static void submit(const std::shared_ptr<Shader> &shader,
-                     const std::shared_ptr<VertexArray> &vertexArray);
+                     const std::shared_ptr<VertexArray> &vertexArray,
+                     const glm::mat4 &model = glm::mat4(1.0f));
 
  private:
   struct SceneData {

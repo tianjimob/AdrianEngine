@@ -12,9 +12,11 @@ void Renderer::beginScene(const OrthographicCamera& camera) {
 void Renderer::endScene() {}
 
 void Renderer::submit(const std::shared_ptr<Shader>& shader,
-                      const std::shared_ptr<VertexArray>& vertexArray) {
+                      const std::shared_ptr<VertexArray>& vertexArray,
+                      const glm::mat4& model) {
   shader->bind();
   shader->setUniform("u_ViewProjection", ms_sceneData->viewProjection);
+  shader->setUniform("u_Model", model);
   vertexArray->bind();
   RendererCommand::drawIndexed(vertexArray);
 }
