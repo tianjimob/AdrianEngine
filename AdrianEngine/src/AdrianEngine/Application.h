@@ -1,13 +1,11 @@
 #pragma once
 #include <memory>
 
+#include "AdrianEngine/Core/Timestep.h"
 #include "Core.h"
 #include "Events/Event.h"
 #include "ImGui/ImGuiLayer.h"
 #include "LayerStack.h"
-#include "Renderer/Buffer.h"
-#include "Renderer/Shader.h"
-#include "Renderer/VertexArray.h"
 #include "Window.h"
 #include "aepch.h"
 
@@ -29,8 +27,9 @@ class AE_API Application {
  private:
   std::unique_ptr<Window> m_window;
   ImGuiLayer *m_imGuiLayer;
-  bool m_isRunning = true;
+  bool m_isRunning{true};
   LayerStack m_layerStack;
+  Timestep m_timestep;
   static Application *ms_instance;
 };
 

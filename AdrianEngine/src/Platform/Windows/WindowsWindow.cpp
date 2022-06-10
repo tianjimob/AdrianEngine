@@ -42,7 +42,7 @@ void WindowsWindow::init(const WindowProps &props) {
   m_context = new OpenGLContext(m_window);
   m_context->init();
   glfwSetWindowUserPointer(m_window, &m_data);
-  setVSync(true);
+  setVSync(false);
 
   // Set GLFW callback
   glfwSetWindowSizeCallback(m_window, [](GLFWwindow *window, int w, int h) {
@@ -67,17 +67,17 @@ void WindowsWindow::init(const WindowProps &props) {
             *static_cast<WindowData *>(glfwGetWindowUserPointer(window))};
         Event *e = nullptr;
         switch (action) {
-        case GLFW_PRESS:
-          e = new KeyPressedEvent(key, 0);
-          break;
-        case GLFW_RELEASE:
-          e = new KeyReleasedEvent(key);
-          break;
-        case GLFW_REPEAT:
-          e = new KeyPressedEvent(key, 1);
-          break;
-        default:
-          break;
+          case GLFW_PRESS:
+            e = new KeyPressedEvent(key, 0);
+            break;
+          case GLFW_RELEASE:
+            e = new KeyReleasedEvent(key);
+            break;
+          case GLFW_REPEAT:
+            e = new KeyPressedEvent(key, 1);
+            break;
+          default:
+            break;
         }
         if (e) {
           data.eventCallback(*e);
@@ -98,14 +98,14 @@ void WindowsWindow::init(const WindowProps &props) {
             *static_cast<WindowData *>(glfwGetWindowUserPointer(window))};
         Event *e = nullptr;
         switch (action) {
-        case GLFW_PRESS:
-          e = new MouseButtonPressedEvent(button);
-          break;
-        case GLFW_RELEASE:
-          e = new MouseButtonReleasedEvent(button);
-          break;
-        default:
-          break;
+          case GLFW_PRESS:
+            e = new MouseButtonPressedEvent(button);
+            break;
+          case GLFW_RELEASE:
+            e = new MouseButtonReleasedEvent(button);
+            break;
+          default:
+            break;
         }
         if (e) {
           data.eventCallback(*e);
@@ -153,4 +153,4 @@ void *WindowsWindow::getNativeWindow() const {
   return static_cast<void *>(m_window);
 }
 
-} // namespace AdrianEngine
+}  // namespace AdrianEngine

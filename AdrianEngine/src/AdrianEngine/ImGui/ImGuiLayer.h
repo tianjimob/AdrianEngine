@@ -1,23 +1,21 @@
 #pragma once
 
 #include "AdrianEngine/Core.h"
-
+#include "AdrianEngine/Core/Timestep.h"
 #include "AdrianEngine/Events/ApplicationEvent.h"
 #include "AdrianEngine/Events/KeyEvent.h"
 #include "AdrianEngine/Events/MouseEvent.h"
-
 #include "AdrianEngine/Layer.h"
 
 namespace AdrianEngine {
 class AE_API ImGuiLayer : public Layer {
-public:
+ public:
   ImGuiLayer();
   ~ImGuiLayer();
 
   void onAttach() override;
   void onDetach() override;
-  void onUpdate() override { /* don't need*/
-  }
+  void onUpdate(const Timestep &ts) override {}
   void onEvent(Event &event) override { /* don't need*/
   }
   void onImGuiRender() override;
@@ -25,7 +23,7 @@ public:
   void begin();
   void end();
 
-private:
+ private:
   bool onMouseButtonPressedEvent(MouseButtonPressedEvent &e);
   bool onMouseButtonReleasedEvent(MouseButtonReleasedEvent &e);
   bool onMouseMovedEvent(MouseMovedEvent &e);
@@ -35,8 +33,8 @@ private:
   bool onKeyTypedEvent(KeyTypedEvent &e);
   bool onWindowResizeEvent(WindowResizeEvent &e);
 
-private:
+ private:
   float m_time = 0.0f;
 };
 
-} // namespace AdrianEngine
+}  // namespace AdrianEngine

@@ -3,4 +3,6 @@
 namespace AdrianEngine {
 Layer::Layer(std::string_view name) : m_debugName(name) {}
 
-} // namespace AdrianEngine
+std::string_view Layer::getName() const { return m_debugName; }
+
+}  // namespace AdrianEngine

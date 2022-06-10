@@ -1,5 +1,9 @@
 #include "Application.h"
 
+#include <chrono>
+#include <ratio>
+#include <thread>
+
 #include "AdrianEngine/Core.h"
 #include "AdrianEngine/Events/ApplicationEvent.h"
 #include "AdrianEngine/Events/Event.h"
@@ -14,6 +18,19 @@
 #include "Input.h"
 #include "aepch.h"
 
+struct Timer {
+  std::chrono::time_point<std::chrono::high_resolution_clock> start{
+      std::chrono::high_resolution_clock::now()};
+  ~Timer() {
+    std::chrono::duration<float, std::milli> elapsed =
+        std::chrono::high_resolution_clock::now() - start;
+    if (elapsed.count() < 1000.0 / 240) {
+      std::this_thread::sleep_for(
+          std::chrono::duration<float, std::milli>(1000.0 / 240) - elapsed);
+    }
+  }
+};
+
 namespace AdrianEngine {
 Application *Application::ms_instance = nullptr;
 Application::Application() {
@@ -27,8 +44,9 @@ Application::Application() {
 
 void Application::run() {
   while (m_isRunning) {
+    m_timestep.onUpdate();
     for (auto *layer : m_layerStack) {
-      layer->onUpdate();
+      layer->onUpdate(m_timestep);
     }
 
     m_imGuiLayer->begin();

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <glm/glm.hpp>
 
 #include "AdrianEngine/Core.h"
@@ -20,7 +22,6 @@ class AE_API OrthographicCamera {
  private:
   void recaculate();
 
- private:
   glm::mat4 m_projection;
   glm::mat4 m_view{1.0f};
   glm::mat4 m_viewProjection;
